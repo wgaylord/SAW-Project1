@@ -1,0 +1,20 @@
+{
+  "name": "saw-project1",
+  "version": "1.0.0",
+  "description": "## Due by Thursday, October 1, 2020",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aaldossari/SAW-Project1.git"
+  },
+  "author": "project team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aaldossari/SAW-Project1/issues"
+  },
+  "homepage": "https://github.com/aaldossari/SAW-Project1#readme"
+}
