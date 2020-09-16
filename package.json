@@ -1,20 +1,23 @@
 {
-  "name": "saw-project1",
-  "version": "1.0.0",
-  "description": "## Due by Thursday, October 1, 2020",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
+  "name": "socket-express",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Starter Express/Socket.io app, based on express-generator",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/aaldossari/SAW-Project1.git"
+    "url": "git+https://github.com/rtc-2020/socket-express.git"
   },
-  "author": "project team",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/aaldossari/SAW-Project1/issues"
+  "scripts": {
+    "dstart": "DEBUG=socket-express:* npm start",
+    "start": "node ./bin/www"
   },
-  "homepage": "https://github.com/aaldossari/SAW-Project1#readme"
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1",
+    "pug": "2.0.0-beta11",
+    "socket.io": "~2.3"
+  }
 }
