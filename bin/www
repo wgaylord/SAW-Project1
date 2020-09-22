@@ -11,7 +11,7 @@ const http = require('http');
 const fs = require('fs');
 
 /**
- * Get port from environment and store in Express.	 * Check environment variables existence; use paths stored in them
+ * Check environment variables existence; use paths stored in them
  * to synchronously read the key and cert, and then start an https
  * server on localhost.
  *
@@ -20,11 +20,11 @@ const fs = require('fs');
  * export LOCALHOST_SSL_CERT="$HOME/path/to/your/cert.pem"
  * export LOCALHOST_SSL_KEY="$HOME/path/to/your/key.pem"
  *
- */	 */
+ */
 
-if (process.env.LOCALHOST_SSL_KEY && process.env.LOCALHOST_SSL_CERT) {
-const port = normalizePort(process.env.PORT || '3000');	  // Use key locations to run https
-app.set('port', port);	  const https = require('https');
+if (process.env.LOCALHOST_SSL_KEY && process.env.LOCALHOST_SSL_CERT) { 
+  
+  const https = require('https');
   const key = fs.readFileSync(process.env.LOCALHOST_SSL_KEY);
   const cert = fs.readFileSync(process.env.LOCALHOST_SSL_CERT);
   // Cannot use const because of conditional assignment
