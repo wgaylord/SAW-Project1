@@ -1,8 +1,10 @@
 var socket = io.connect('/');
 
+var table = document.querySelector('#container');
+
 socket.on('init', function(data) {
 	console.log('Inital Data: '+data);
-	data.forEach(element => console.log(element));
+	data.forEach(element => console.log(element)); //TODO: Add items to table
 });
 
 
