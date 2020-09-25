@@ -21,7 +21,7 @@ https.get(url, function(response){
     response.on('data', function(data){
         try{
             lastRequest = JSON.parse(data)
-        catch(e){
+        }catch(e){
             console.log(e); //Log error
         }
     });
