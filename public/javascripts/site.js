@@ -21,7 +21,7 @@ socket.on('init', function(data) {
         comments.innerHTML = activatorEntry.comments;
         activityStart.innerHTML = activatorEntry.activityStart;
         activityEnd.innerHTML = activatorEntry.activityEnd;
-
+        row.id = activatorEntry.activator + activatorEntry.reference;
     });
 
 });
@@ -37,4 +37,8 @@ socket.on('init', function(data) {
 socket.on('changed', function(data) {
   console.log('Change received: ' + data);
   console.log('Fields that changed are: ' + data.changed);
+  var row = document.getElementById(data.activator+data.reference);
+  
+
 });
+
