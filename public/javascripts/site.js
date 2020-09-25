@@ -1,10 +1,29 @@
 var socket = io.connect('/');
 
-var table = document.querySelector('#container');
+var table = document.querySelector('body > table > tbody');
 
 socket.on('init', function(data) {
-	console.log('Inital Data: '+data);
-	data.forEach(element => console.log(element)); //TODO: Add items to table
+    //console.log('Inital Data: '+data);
+    data.forEach(function(activatorEntry){
+        console.log(activatorEntry);
+        var row = table.insertRow();
+        var activator = row.insertCell();
+        var name = row.insertCell();
+        var reference = row.insertCell();
+        var frequencies = row.insertCell();
+        var comments = row.insertCell();
+        var activityStart = row.insertCell();
+        var activityEnd = row.insertCell();
+        activator.innerHTML = activatorEntry.activator;
+        name.innerHTML = activatorEntry.name;
+        reference.innerHTML = activatorEntry.reference;
+        frequencies.innerHTML = activatorEntry.frequencies;
+        comments.innerHTML = activatorEntry.comments;
+        activityStart.innerHTML = activatorEntry.activityStart;
+        activityEnd.innerHTML = activatorEntry.activityEnd;
+
+    });
+
 });
 
 
