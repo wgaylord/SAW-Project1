@@ -6,10 +6,22 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const socket = require('socket.io')();
+const schedule = require('node-schedule');
+const https = require('https');
 
 const indexRouter = require('./routes/index');
 
 const app = express();
+
+const url = 'https://api.pota.us/activation' //Parks on the Air url
+
+var lastRequest = {} //Initalize empty Object
+
+https.get(url, function(response){
+    response.on('data', function(data){
+		lastRequest = JSON.parse(data) //TODO: Add error handling
+	});
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,8 +36,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 
 // send a message on successful socket connection
-socket.on('connection', function(){
-  socket.emit('message', 'Successfully connected.');
+socket.on('connection', function(clientSocket){
+  clientSocket.emit('init', lastRequest);
 });
 
 // catch 404 and forward to error handler
@@ -42,6 +54,20 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+
+var checkingJob = schedule.scheduleJob('*/10 * * * *', function(){
+	
+	https.get(url, function(response){
+    response.on('data', function(data){
+		const potaData = JSON.parse(data) //TODO: Add error handling
+		if(potaData!=lastRequest){
+			//TODO: Compare entries and find differnces and use io.emit to send to client.
+			lastRequest = potaData
+		}
+		});
+	});
 });
 
 module.exports = {app, socket};
