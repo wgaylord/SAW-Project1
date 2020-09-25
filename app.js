@@ -19,8 +19,12 @@ var lastRequest = {} //Initalize empty Object
 
 https.get(url, function(response){
     response.on('data', function(data){
-		lastRequest = JSON.parse(data) //TODO: Add error handling
-	});
+        try{
+            lastRequest = JSON.parse(data)
+        }catch(e){
+            console.log(e); //Log error
+        }
+    });
 });
 
 // view engine setup
@@ -58,16 +62,19 @@ app.use(function(err, req, res, next) {
 
 
 var checkingJob = schedule.scheduleJob('*/10 * * * *', function(){
-	
-	https.get(url, function(response){
-    response.on('data', function(data){
-		const potaData = JSON.parse(data) //TODO: Add error handling
-		if(potaData!=lastRequest){
+    https.get(url, function(response){
+       response.on('data', function(data){
+                try{
+		    const potaData = JSON.parse(data);
+		    if(potaData!=lastRequest){
 			//TODO: Compare entries and find differnces and use io.emit to send to client.
 			lastRequest = potaData
-		}
-		});
-	});
+		    }
+                }catch(e){
+                    console.log(e);
+                }
+        });
+    });
 });
 
 module.exports = {app, socket};
