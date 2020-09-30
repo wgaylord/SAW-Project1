@@ -65,7 +65,7 @@ var checkingJob = schedule.scheduleJob('*/10 * * * *', function(){
     https.get(url, function(response){
        response.on('data', function(data){
                 try{
-		    const potaData = JSON.parse(data); 
+		    const potaData = JSON.parse(data);
 		    if(potaData!=lastRequest){
 			//TODO: Compare entries and find differnces and use io.emit to send to client.
 			lastRequest = potaData
