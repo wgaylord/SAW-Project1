@@ -8,6 +8,7 @@ const logger = require('morgan');
 const socket = require('socket.io')();
 const schedule = require('node-schedule');
 const util = require('./lib/utilities');
+const https = require('https');
 
 const indexRouter = require('./routes/index');
 
@@ -17,7 +18,26 @@ const url = 'https://api.pota.us/activation' //Parks on the Air url
 
 var lastRequest = {} //Initalize empty Object
 
-util.fetchHttpsJson(url).then((data) => {lastRequest = data;});
+//util.fetchHttpsJson(url).then((data) => {lastRequest = data;});
+
+/*https.get(url, function(response){
+    var datatotal = ''
+    response.on('data', function(data){
+        try{
+            //console.log(data);
+	    datatotal += data;
+            //lastRequest = JSON.parse(data)
+        }catch(e){
+           // console.log(e); //Log error
+        }
+    });
+    response.on('end', function(){
+     console.log(datatotal);
+    });
+});
+*/
+
+util.httprequest().then((data) => {lastRequest = data});
 
 console.log(lastRequest);
 
@@ -56,11 +76,9 @@ app.use(function(err, req, res, next) {
 
 
 var checkingJob = schedule.scheduleJob('*/10 * * * *', function(){
-    util.fetchHttpsJson(url).then((data) => {
-        if(data != lastRequest){
-            lastRequest = data;
-        }
-    });
+   util.httprequest().then((data) => {
+   	lastRequest = data
+   });
 });
 
 module.exports = {app, socket};
