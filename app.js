@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const socket = require('socket.io')();
 const schedule = require('node-schedule');
-const https = require('https');
+const util = require('./lib/utilities');
 
 const indexRouter = require('./routes/index');
 
@@ -17,15 +17,9 @@ const url = 'https://api.pota.us/activation' //Parks on the Air url
 
 var lastRequest = {} //Initalize empty Object
 
-https.get(url, function(response){
-    response.on('data', function(data){
-        try{
-            lastRequest = JSON.parse(data)
-        }catch(e){
-            console.log(e); //Log error
-        }
-    });
-});
+util.fetchHttpsJson(url).then((data) => {lastRequest = data;});
+
+console.log(lastRequest);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -62,18 +56,10 @@ app.use(function(err, req, res, next) {
 
 
 var checkingJob = schedule.scheduleJob('*/10 * * * *', function(){
-    https.get(url, function(response){
-       response.on('data', function(data){
-                try{
-		    const potaData = JSON.parse(data);
-		    if(potaData!=lastRequest){
-			//TODO: Compare entries and find differnces and use io.emit to send to client.
-			lastRequest = potaData
-		    }
-                }catch(e){
-                    console.log(e);
-                }
-        });
+    util.fetchHttpsJson(url).then((data) => {
+        if(data != lastRequest){
+            lastRequest = data;
+        }
     });
 });
 
