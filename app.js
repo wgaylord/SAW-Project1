@@ -60,7 +60,7 @@ app.use(function(err, req, res, next) {
 var checkingJob = schedule.scheduleJob('*/10 * * * *', function(){
    util.httprequest().then((data) => {
         mostRecentChanges = util.compareSite(lastRequest,data);
-        mostRecentChanges.forEach(change => {socket.emit('change',change);});
+        socket.emit('change',mostRecentChanges);
    	console.log(mostRecentChanges);
         lastRequest = data
    });

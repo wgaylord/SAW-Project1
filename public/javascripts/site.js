@@ -35,10 +35,7 @@ socket.on('init', function(data) {
 */
 
 socket.on('change', function(data) {
-  console.log('Change received: ' + data);
-  console.log('Change Type ' + data.type);
-  console.log('Fields that changed are: ' + data.changeLocations);
-
+  data.forEach(data1 => console.log(data1));
 
 });
 
