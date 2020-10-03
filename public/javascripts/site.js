@@ -1,3 +1,14 @@
+//service worker registration
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+    .then(function(registration) {
+      console.log(`Successfully registered service worker to ${registration.scope}`);
+    })
+    .catch(function(error) {
+      console.error('registration error:', error);
+    });
+  }
+
 var socket = io.connect('/');
 
 var table = document.querySelector('body > table > tbody');
