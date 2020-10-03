@@ -17,25 +17,7 @@ const app = express();
 const url = 'https://api.pota.us/activation' //Parks on the Air url
 
 var lastRequest = {} //Initalize empty Object
-
-//util.fetchHttpsJson(url).then((data) => {lastRequest = data;});
-
-/*https.get(url, function(response){
-    var datatotal = ''
-    response.on('data', function(data){
-        try{
-            //console.log(data);
-	    datatotal += data;
-            //lastRequest = JSON.parse(data)
-        }catch(e){
-           // console.log(e); //Log error
-        }
-    });
-    response.on('end', function(){
-     console.log(datatotal);
-    });
-});
-*/
+var mostRecentChanges = [] //Changes from most recent check
 
 util.httprequest().then((data) => {lastRequest = data});
 
@@ -77,7 +59,10 @@ app.use(function(err, req, res, next) {
 
 var checkingJob = schedule.scheduleJob('*/10 * * * *', function(){
    util.httprequest().then((data) => {
-   	lastRequest = data
+        mostRecentChanges = util.compareSite(lastRequest,data);
+        socket.emit('change',mostRecentChanges);
+   	console.log(mostRecentChanges);
+        lastRequest = data
    });
 });
 

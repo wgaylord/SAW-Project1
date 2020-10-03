@@ -31,14 +31,11 @@ socket.on('init', function(data) {
 * Data is sent as the new data plus a extra field for what fields changed
 * Ex: {"activator": "", "name": "", "reference": "", "locationDesc": "", 
 * "activityStart": "", "activityEnd": "", "startDate": "", "endDate": "",
-* "startTime": "", "endTime": "", "frequencies": "", "comments": "","changed":["frequencies"]}
+* "startTime": "", "endTime": "", "frequencies": "", "comments": "","changeLocations":["frequencies"],"type":"change"}
 */
 
-socket.on('changed', function(data) {
-  console.log('Change received: ' + data);
-  console.log('Fields that changed are: ' + data.changed);
-  var row = document.getElementById(data.activator+data.reference);
-  
+socket.on('change', function(data) {
+  data.forEach(data1 => console.log(data1));
 
 });
 
