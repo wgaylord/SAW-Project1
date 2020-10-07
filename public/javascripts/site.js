@@ -1,3 +1,14 @@
+//service worker registration
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+    .then(function(registration) {
+      console.log(`Successfully registered service worker to ${registration.scope}`);
+    })
+    .catch(function(error) {
+      console.error('registration error:', error);
+    });
+  }
+
 var socket = io.connect('/');
 
 var table = document.querySelector('body > table > tbody');
@@ -5,7 +16,7 @@ var table = document.querySelector('body > table > tbody');
 socket.on('init', function(data) {
     //console.log('Inital Data: '+data);
     data.forEach(function(activatorEntry){
-        console.log(activatorEntry);
+        //console.log(activatorEntry);
         var row = table.insertRow();
         var activator = row.insertCell();
         var name = row.insertCell();
@@ -29,7 +40,7 @@ socket.on('init', function(data) {
 
 /*
 * Data is sent as the new data plus a extra field for what fields changed
-* Ex: {"activator": "", "name": "", "reference": "", "locationDesc": "", 
+* Ex: {"activator": "", "name": "", "reference": "", "locationDesc": "",
 * "activityStart": "", "activityEnd": "", "startDate": "", "endDate": "",
 * "startTime": "", "endTime": "", "frequencies": "", "comments": "","changeLocations":["frequencies"],"type":"change"}
 */
@@ -38,4 +49,3 @@ socket.on('change', function(data) {
   data.forEach(data1 => console.log(data1));
 
 });
-

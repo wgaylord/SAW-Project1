@@ -21,7 +21,7 @@ var mostRecentChanges = [] //Changes from most recent check
 
 util.httprequest().then((data) => {lastRequest = data});
 
-console.log(lastRequest);
+//console.log(lastRequest);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
