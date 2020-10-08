@@ -38,18 +38,18 @@ socket.on('change', function(data) {
   data.forEach(activatorEntry => {
       if(activatorEntry.type == "added"){
         var row = addRow(activatorEntry)
-        row.bgColor = "#00FF00"; 
+        row.style.backgroundColor = "#00FF00", row.style.fontFamily = "Monospace", row.style.fontSize = "18px"; 
       }
       if(activatorEntry.type == "removed"){
           var row = document.getElementById(activatorEntry.activator+activatorEntry.reference);
           if(row != null){
-              row.bgColor = "#FF0000";
+              row.style.backgroundColor = "#FF0000", row.style.fontFamily = "sans-serif", row.style.fontSize = "20px";
           }
       }
       if(activatorEntry.type == "changed"){
           var row = document.getElementById(activatorEntry.activator+activatorEntry.reference);
           if(row != null){
-            row.bgColor = "#FFFF00"
+            row.style.backgroundColor = "#FFFF00", row.style.fontFamily = "Courier New", row.style.fontSize = "22px";
           }
       }
     
@@ -61,10 +61,10 @@ function removeRowAndColor(){
 	var i = 0;
 	while(i < table.rows.length){
 		var row = table.rows.item(i)
-		if(row.bgColor == "#FF0000"){
+		if(row.style.backgroundColor == "#FF0000"){
 			row.remove();
 		}else{
-			row.bgColor = "white";
+			row.style.backgroundColor = "#FFFFFF";
 		}
 		i = i + 1;
 	}
