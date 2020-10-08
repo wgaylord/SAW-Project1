@@ -15,11 +15,12 @@ var table = document.querySelector('body > table > tbody');
 
 socket.on('init', function(data) {
     //console.log('Inital Data: '+data);
+    if(table.rows.length == 1){
     data.forEach(function(activatorEntry){
         //console.log(activatorEntry);
       addRow(activatorEntry);
     });
-
+    }
 });
 
 
@@ -37,18 +38,18 @@ socket.on('change', function(data) {
   data.forEach(activatorEntry => {
       if(activatorEntry.type == "added"){
         var row = addRow(activatorEntry)
-        row.bgColor = "green";
+        row.bgColor = "#00FF00"; 
       }
       if(activatorEntry.type == "removed"){
           var row = document.getElementById(activatorEntry.activator+activatorEntry.reference);
           if(row != null){
-              row.bgColor = "red";
+              row.bgColor = "#FF0000";
           }
       }
       if(activatorEntry.type == "changed"){
           var row = document.getElementById(activatorEntry.activator+activatorEntry.reference);
           if(row != null){
-            //TODO Add color to parts that changed.
+            row.bgColor = "#FFFF00"
           }
       }
     
@@ -60,7 +61,7 @@ function removeRowAndColor(){
 	var i = 0;
 	while(i < table.rows.length){
 		var row = table.rows.item(i)
-		if(row.bgColor == "red"){
+		if(row.bgColor == "#FF0000"){
 			row.remove();
 		}else{
 			row.bgColor = "white";
