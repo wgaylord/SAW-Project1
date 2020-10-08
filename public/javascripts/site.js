@@ -31,17 +31,18 @@ socket.on('init', function(data) {
 */
 
 socket.on('change', function(data) {
+  if(data.length > 0){
+	removeRowAndColor();
+  }
   data.forEach(activatorEntry => {
       if(activatorEntry.type == "added"){
         var row = addRow(activatorEntry)
-        //TODO Add class to row for CSS
-        //COLOR GREEN
+        row.bgColor = "green";
       }
       if(activatorEntry.type == "removed"){
           var row = document.getElementById(activatorEntry.activator+activatorEntry.reference);
           if(row != null){
-            //TODO Add class to row for CSS 
-            //COLOR RED
+              row.bgColor = "red";
           }
       }
       if(activatorEntry.type == "changed"){
@@ -55,7 +56,20 @@ socket.on('change', function(data) {
 
 });
 
-function addRow(data){
+function removeRowAndColor(){
+	var i = 0;
+	while(i < table.rows.length){
+		var row = table.rows.item(i)
+		if(row.bgColor == "red"){
+			row.remove();
+		}else{
+			row.bgColor = "white";
+		}
+		i = i + 1;
+	}
+}
+
+function addRow(activatorEntry){
         var row = table.insertRow();
         var activator = row.insertCell();
         var name = row.insertCell();
