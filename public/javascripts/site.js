@@ -57,14 +57,16 @@ socket.on('change', function(data) {
 });
 
 function removeRowAndColor(){
-	table.rows.forEach(row => {
+	var i = 0;
+	while(i < table.rows.length){
+		var row = table.rows.item(i)
 		if(row.bgColor == "red"){
 			row.remove();
 		}else{
 			row.bgColor = "white";
 		}
-		
-	});
+		i = i + 1;
+	}
 }
 
 function addRow(activatorEntry){
