@@ -18,9 +18,9 @@ socket.on('init', function(data) {
     data.forEach(function(activatorEntry){
         //console.log(activatorEntry);
       addRow(activatorEntry);
-    });
 
-});
+
+
 
 
 /*
@@ -40,7 +40,7 @@ socket.on('change', function(data) {
       if(activatorEntry.type == "removed"){
           var row = document.getElementById(activatorEntry.activator+activatorEntry.reference);
           if(row != null){
-            //TODO Add class to row for CSS 
+            //TODO Add class to row for CSS
             //COLOR RED
           }
       }
@@ -50,7 +50,7 @@ socket.on('change', function(data) {
             //TODO Add color to parts that changed.
           }
       }
-    
+
   });
 
 });
@@ -74,3 +74,5 @@ function addRow(data){
         row.id = activatorEntry.activator + activatorEntry.reference;
         return row;
 }
+      });
+  });
