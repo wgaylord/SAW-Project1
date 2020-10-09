@@ -1,3 +1,4 @@
+var enableNotificationButtons = document.querySelectorAll('.enable-notifications')
 //service worker registration
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js')
@@ -7,6 +8,36 @@ if ('serviceWorker' in navigator) {
     .catch(function(error) {
       console.error('registration error:', error);
     });
+  }
+
+  function displayNotification() {
+    if ('serviceWorker' in navigator) {
+      var options = {
+        body: 'You Successfully Subscribed to our Notification Services!',
+      };
+      navigator.serviceWorker.ready
+        .then(function(swreg) {
+          swreg.showNotification('Successfully subscribed!', options);
+        });
+    }
+  }
+
+  function askForNotificationPermission() {
+    Notification.requestPermission(function(result) {
+      console.log('user choice', result);
+      if (result !== 'granted') {
+        console.log('No Permission granted!');
+      } else {
+        displayNotification();
+      }
+    });
+  }
+
+  if ('Notification' in window) {
+    for (var i = 0; i < enableNotificationButtons.length; i++) {
+      enableNotificationButtons[i].style.display = 'inline-block';
+      enableNotificationButtons[i].addEventListener('click', askForNotificationPermission);
+    }
   }
 
 var socket = io.connect('/');
@@ -38,7 +69,7 @@ socket.on('change', function(data) {
   data.forEach(activatorEntry => {
       if(activatorEntry.type == "added"){
         var row = addRow(activatorEntry)
-        row.style.backgroundColor = "#00FF00", row.style.fontFamily = "Monospace", row.style.fontSize = "18px"; 
+        row.style.backgroundColor = "#00FF00", row.style.fontFamily = "Monospace", row.style.fontSize = "18px";
       }
       if(activatorEntry.type == "removed"){
           var row = document.getElementById(activatorEntry.activator+activatorEntry.reference);
@@ -52,7 +83,7 @@ socket.on('change', function(data) {
             row.style.backgroundColor = "#FFFF00", row.style.fontFamily = "Courier New", row.style.fontSize = "22px";
           }
       }
-    
+
   });
 
 });
