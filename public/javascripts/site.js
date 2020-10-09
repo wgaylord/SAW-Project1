@@ -15,12 +15,13 @@ var table = document.querySelector('body > table > tbody');
 
 socket.on('init', function(data) {
     //console.log('Inital Data: '+data);
+    if(table.rows.length == 1){
     data.forEach(function(activatorEntry){
         //console.log(activatorEntry);
       addRow(activatorEntry);
-
-
-
+    });
+    }
+});
 
 
 /*
@@ -31,31 +32,45 @@ socket.on('init', function(data) {
 */
 
 socket.on('change', function(data) {
+  if(data.length > 0){
+	removeRowAndColor();
+  }
   data.forEach(activatorEntry => {
       if(activatorEntry.type == "added"){
         var row = addRow(activatorEntry)
-        //TODO Add class to row for CSS
-        //COLOR GREEN
+        row.style.backgroundColor = "#00FF00", row.style.fontFamily = "Monospace", row.style.fontSize = "18px"; 
       }
       if(activatorEntry.type == "removed"){
           var row = document.getElementById(activatorEntry.activator+activatorEntry.reference);
           if(row != null){
-            //TODO Add class to row for CSS
-            //COLOR RED
+              row.style.backgroundColor = "#FF0000", row.style.fontFamily = "sans-serif", row.style.fontSize = "20px";
           }
       }
       if(activatorEntry.type == "changed"){
           var row = document.getElementById(activatorEntry.activator+activatorEntry.reference);
           if(row != null){
-            //TODO Add color to parts that changed.
+            row.style.backgroundColor = "#FFFF00", row.style.fontFamily = "Courier New", row.style.fontSize = "22px";
           }
       }
-
+    
   });
 
 });
 
-function addRow(data){
+function removeRowAndColor(){
+	var i = 0;
+	while(i < table.rows.length){
+		var row = table.rows.item(i)
+		if(row.style.backgroundColor == "#FF0000"){
+			row.remove();
+		}else{
+			row.style.backgroundColor = "#FFFFFF";
+		}
+		i = i + 1;
+	}
+}
+
+function addRow(activatorEntry){
         var row = table.insertRow();
         var activator = row.insertCell();
         var name = row.insertCell();
@@ -74,5 +89,3 @@ function addRow(data){
         row.id = activatorEntry.activator + activatorEntry.reference;
         return row;
 }
-      });
-  });
